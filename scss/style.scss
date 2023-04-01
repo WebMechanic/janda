@@ -1,5 +1,10 @@
-@use 'abstracts';
-@use 'base';
-@use 'components';
-@use 'layout';
-@use 'pages';
+@import 'abstracts/index';
+@import 'base/index';
+@import 'components/index';
+@import 'layout/index';
+@import 'pages/index';
+
+.header {
+
+    color: $headertextcolor;
+}
