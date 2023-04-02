@@ -1,4 +1,5 @@
-@import 'variables';
-@import 'footer';
+// target style.css
+@forward 'normalize';
+@forward 'footer';
 
 
