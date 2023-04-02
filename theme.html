@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Messing with Sass Mixins</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+		<!-- fonts, general icons, & brand icons from Font Awesome saved locally -->
+  <link href="assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+  <link href="assets/fontawesome/css/brands.css" rel="stylesheet">
+  <link href="assets/fontawesome/css/solid.css" rel="stylesheet">
+
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/theme-default.css" rel="stylesheet">
+<style>
+.swatches > s {
+	display: inline-block;
+	width: 3em;
+	aspect-ratio: 1;
+}
+</style>
+</head>
+
+<body>
+<main>
+	<header>
+		<h1>Messing with Sass Mixins</h1>
+		<nav class="menu-bar">
+			<a class="menu-link" href="index.html">Back Home</a>
+		</nav>
+	</header>
+
+	<article>
+		<h2>Notifications</h2>
+		<div class="message error">
+			<h3>This is an Error Message Box</h3>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem illo obcaecati maiores, odio dolore consectetur corporis modi.</p>
+		</div>
+		<div class="message ok">
+			<h3>This is a Success Message Box</h3>
+			<p>Harum cumque eaque eveniet hic beatae quasi consequatur quaerat itaque nemo sapiente quos.</p>
+		</div>
+		<div class="message info">
+			<h3>This is an Information Box</h3>
+			<p>Dolorem illo obcaecati maiores, odio dolore consectetur corporis modi. Consequatur quaerat itaque nemo sapiente quos.</p>
+		</div>
+	</article>
+
+	<article hidden>
+		<h2>Mixin Demo: space and devices and theme</h2>
+		<!-- that doable and valid, but causes the browser to stop rendering the page until the .css is loaded -->
+		<link href="css/namespace-demo.css" rel="stylesheet">
+
+		<div class="message showme -xs -sm -md -lg -xl">
+			<h3>Styles in this plain Box varies with @media query</h3>
+			<span class="-xs">xs</span>
+			<span class="-sm">sm</span>
+			<span class="-md">md</span>
+			<span class="-lg">lg</span>
+			<span class="-xl">xl</span>
+			<p>
+				Resize the browser window to see colored borders around three of these elements if their <q>media query device selector</q> matches. 
+				And this paragraph changes, too.
+			</p>
+		</div>
+
+		<section class="swatches">
+			<p>A generated color ramp from a mixin.</p>
+			<!-- inline styles to save a buttload of class names for this demo -->
+			<s style="background:var(--red-90)"></s>
+			<s style="background:var(--red-80)"></s>
+			<s style="background:var(--red-70)"></s>
+			<s style="background:var(--red-60)"></s>
+			<s style="background:var(--red-50)"></s>
+			<s style="background:var(--red-40)"></s>
+			<s style="background:var(--red-30)"></s>
+			<s style="background:var(--red-20)"></s>
+			<s style="background:var(--red-10)"></s>
+		</section>
+
+		<section class="widths">
+			<p style="width: 100%;">The size of each item in <code>space.$sizes</code>.</p>
+			<!-- inline styles to save a buttload of class names for this demo -->
+			<small style="width:var(--width-xs)">xs</small>
+			<small style="width:var(--width-sm)">sm</small>
+			<small style="width:var(--width-md)">md</small>
+			<small style="width:var(--width-lg)">lg</small>
+			<small style="width:var(--width-xl)">xl</small>
+		</section>
+
+		<section class="namespace">
+			<p class="col-xl row-sm">
+				<b>A Sample Grid using <code>space.$sizes</code> to span across grid tracks.</b>
+				<br>This paragraph spans 5 columns and two rows thanks to classes <code>col-xl row-sm</code>.
+				The other elements have some <q>kinda randomly</q> applied col- and row-classes.
+				Given enough <code>@media</code>-queries based on <code>devices.$sizes</code>
+				and some clever looping one could create a smart Grid System that's actually
+				based on CSS Grid and not some fake Flexbox based <q>Column System</q>.
+			</p>
+			<div class="col col-xs">item 1</div><div class="col col-sm">item 2</div>
+			<div class="col col-sm">item 3</div><div class="col col-sm+ row-sm">item 4</div>
+			<div class="col col-xs row-sm">item 5</div><div class="col col-xs">item 6</div>
+			<div class="col col-md">item 7</div><div class="col col-xs+">item 8</div>
+			<div class="col col-xs row-md">item 9</div><div class="col col-md">item 10</div>
+			<div class="col col-lg row-sm">item 11</div><div class="col col-sm+">item 12</div>
+			<div class="col col-xs">item 13</div><div class="col col-xs">item 14</div>
+			<div class="col col-xl">item 15</div><div class="col row-sm">item 16</div>
+		</section>
+
+	</article>
+	</main>
+</body>
+</html>

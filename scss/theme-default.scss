@@ -1,0 +1,42 @@
+/* Default Color Theme */
+
+// the colors
+@use "mixins/theme";
+
+// spacing
+@use "mixins/space";
+
+// some sample classes to use and demonstrate the 
+// various color variables
+
+h1,
+h2,
+h3 {
+  color: theme.$dark;
+}
+
+.message {
+  // use CSS variables to set the property
+  color: var(--message-text, currentColor);
+  background-color: var(--message-background);
+  border: 3px solid var(--message-border, none);
+  border-radius: space.$xs;
+
+  box-shadow: 0 0 space.$sm theme.$middle;
+
+  // use Sass variable to define the CSS variables with "interpolation"
+  &.ok {
+    --message-background: #{theme.$green-10};
+    --message-border:  #{theme.$green-5};
+  }
+  &.error {
+    --message-background: #{theme.$message-error};
+    --message-border: #{theme.$text-error};
+    --message-text: #{theme.$text-error};
+  }
+  &.info {
+    --message-background: #{theme.$message-info};
+    --message-border: #{theme.$text-info};
+    --message-text: #{theme.$text-info};
+  }
+}

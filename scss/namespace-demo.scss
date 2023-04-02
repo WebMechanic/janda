@@ -1,0 +1,158 @@
+// just a testfile to demo namespaces
+// and the usage of mixins, maps, and lists.
+
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "sass:string";
+
+// the both contain a variable names $sizes
+@use "mixins/device"; // a LIST referenced as device.$sizes
+@use "mixins/space";  // a MAP  referenced as space.$sizes
+
+// --------------------------------------------------------
+// a "local" mixin
+@mixin the-box {
+  outline: 2px solid silver;
+  background-color: floralwhite;
+}
+
+// --------------------------------------------------------
+// @debug output to the console
+// outputs the LIST $sizes
+@debug ">>>" DEVICE meta.type-of(device.$sizes) value device.$sizes;
+@each $device in device.$sizes {
+  @debug Device Key $device;
+}
+
+// outputs the MAP $sizes
+@debug ">>>" SPACE meta.type-of(space.$sizes) value space.$sizes;
+@each $device, $value in space.$sizes {
+  @debug Size $device equals the meta.type-of($value) $value equals (16px * device.strip-unit($value));
+}
+
+// --------------------------------------------------------
+// now let's do something useless with these $sizes
+// Rename this file to "namespace-demo.scss" so Sass creates 
+// a proper .css file that will be included in "theme.html"
+// --------------------------------------------------------
+.message :first-child {
+  margin-block: 0;
+}
+
+.namespace {
+  @include space.mb(xl);
+  display: grid;
+  gap: space.$sm;
+  grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
+  grid-auto-rows: 5rem;
+  grid-auto-flow: dense;
+  .col {
+    @include the-box()
+  }
+}
+
+// --------------------------------------------------------
+// A poor man's Grid System
+// --------------------------------------------------------
+// $viewports has more values but we only pick the ones from $sizes-all.
+// whatever's passed as the @content will be wrapped in a 
+$device-match: auto !default;
+$device-size: 0 !default;
+$device-data: none !default;
+// @var $loopup Map with device keys and values to copy over if device size matches
+@mixin device-group($lookup, $content-only: false) {
+  $numLookups: list.length( map.values($lookup) );
+  @each $breakpoint in device.$sizes {
+    $size: map.get(device.$viewports, $breakpoint);
+    $device-match: $breakpoint !global;
+    $device-size: $size !global;
+
+    $device-data: map.get($lookup, $breakpoint) !global;    
+    @if ($numLookups > 0 and $device-data != null) {
+      @media (min-width: $size) {
+        @if ($content-only) {
+          @content;
+        } @else {
+          &.-#{$breakpoint} { 
+            @content;
+          }
+        }
+      }
+    }
+  }
+}
+
+.grid {
+  // vars can be assignd in custom context selectors
+  grid-template-columns: var(--column-layout);
+  grid-template-rows: var(--row-layout);
+  grid-template-areas: var(--area-layout);
+  gap: var(--gutter, var(--gap, normal));
+
+  @include device-group(()) {
+    display: grid;
+  }
+}
+  
+$l: list.length(device.$sizes);
+[class ~= "col-"] {
+  grid-column-start: auto;
+}
+@for $i from 1 through $l {
+  $size: list.nth(device.$sizes, $i);
+  .col-#{$size} { grid-column-end: span $i; }
+  .row-#{$size} { grid-row-end: span $i; }
+  // slightly "extended" variation
+  .col-#{$size}\+ { grid-column-end: span math.floor($i * 1.5); }
+}
+
+// --------------------------------------------------------
+:root {
+  @each $device, $value in space.$sizes {
+    --width-#{$device}: #{$value};
+  }
+}
+p:first-of-type {
+  @include space.mb(xxl);
+}
+
+.widths {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space.$sm;
+  > small {
+    @include the-box();
+  }
+}
+
+// --------------------------------------------------------
+// Resize the browser window to see colored borders in the "plain box"
+.showme {
+  // these vars will be "copied" into $device-data if the device size matches.
+  // Values could even be more complex than just a color name, 
+  // like nested list and maps, function names etc./ as long as their 
+  // "consumer" knows how to handle the resulting data.
+  $lookups: (
+    md: red,
+    lg: green,
+    xl: blue,
+  );
+  span {
+    color: silver;
+  }
+  @include device-group($lookups, true) {
+    span.-#{$device-match} {
+      --device-match: #{$device-match};
+      color: inherit;
+      position: relative;
+      display: inline-block;
+      padding-inline: 1ch;
+      border: 2px solid if($device-data, $device-data, none);
+      ~ p {
+        color: if($device-data, $device-data, currentColor);
+      }
+    }
+  }
+}

@@ -1,5 +1,21 @@
 // target style.css
+@use "mixins/theme";
+@use "mixins/space";
+
 @forward 'normalize';
+@forward 'boxes';
 @forward 'footer';
 
+// utility and debug stuff
+samp,
+code {
+  font-family: monospace;
+  font-size: 80%;
 
+  color: theme.$dark;
+  background: theme.$light;
+  opacity: .95;
+  border-radius: calc(0.5 * space.$xxs);
+  outline: 1px solid theme.$middle;
+  padding-block: 2px 0;
+}
