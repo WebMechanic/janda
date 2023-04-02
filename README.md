@@ -1,6 +1,10 @@
 # r1
  r1
 
- march 31: 
- TO COMPILE SCSS TO CSS (STYLE.SCSS --> STYLE.CSS)
- using Windows Powershell with command...     sass --watch scss:sass
+april 2: 
+TO COMPILE SCSS TO CSS (STYLE.SCSS --> STYLE.CSS)
+using Windows Powershell or CMD.exe with command...
+
+  sass --watch scss:css
+
+Requires Dart Sass from https://github.com/sass/dart-sass/releases/tag/1.60.0 inside `PATH`
