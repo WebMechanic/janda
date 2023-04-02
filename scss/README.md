@@ -1,6 +1,7 @@
 # Sass Sources
 
-Sass Sources contain regular CSS code and call Sass features such as:
+Sass files (.scss/.sass) contain regular CSS code and call Sass features such as:
+
 - `$variable`
 - `@mixin`
 - `@function`
@@ -11,20 +12,52 @@ Sass Sources contain regular CSS code and call Sass features such as:
 A file starting with an unterscore `_` is called a "partial" as it only 
 contains styles with a very narrow scope, like the style rules for
 
-- layouts/_blocks.scss -- boxes and common areas
-- pages/_login.scss -- login page
-- pages/_profile.scss -- user profile
-- pages/_home.scss -- homepage
-- forms/_forms.scss -- forms (like a user + password combo)
-- forms/_inputs.scss -- input controls
+- layouts/_blocks.scss &mdash; boxes and common areas
+- pages/_login.scss &mdash; login page
+- pages/_profile.scss &mdash; user profile
+- pages/_home.scss &mdash; homepage
+- forms/_forms.scss &mdash; forms (like a user + password combo)
+- forms/_inputs.scss &mdash; input controls
 
 They are the "module" and "component" styles for the various building blocks
 of a site's pages.
 
+A special partial named `_index.scss` can be used as a stand-in for the contents
+of a complete folder. This is useful if many if the Sass sources in that folder 
+should always be included as a whole. Adding the `_index.scss` file name is not
+required to include "the folder".
+
+```
+/page-1.scss
+/modules/_index.scss
+/modules/_module-1.scss
+/modules/_module-2.scss
+/modules/_module-3.scss
+```
+
+The `_index.scss` file represents a fixed selection of files from its folder.
+Sass will find the `_index.scss` if only the folder name is given in a `@use`
+or `@forward` statement and read this file automatically.
+
+```scss
+// /modules/_index.scss
+@forward "module-1";
+@forward "module-2";
+@forward "module-3";
+```
+
+```scss
+// page-1.scss
+@forward "modules"; // will include all three _module partials.
+```
+
+> To create a dedicated CSS file from the Sass sources of a folder use 
+> `index.scss` instead (no underscore) and Sass will bundle it into a `index.css`.
+
 ## Bundled Stylesheets
 
 Partials are eventually combined/bundled using a set of `@forward` rules
-(the successor of `@import`) within files that **do not** start with 
+(the successor of `@import`) within Sass files that **do not** start with 
 an underscore, like:
 
 - /scss/styles.scss
@@ -42,12 +75,14 @@ by the browser.
 - /css/home.css
 - /css/login.css
 
-Aother common use case is creating an `index.scss` inside a folder that 
-combines a set of partials inside into a whole .css file. Having separate
-partials allows to reuse them for different CSS targets. 
+## Multiple CSS files by combining different Sources
+
+Another common use case is creating unprefixed .scss files inside a folder to
+combine a specific set of partials into one .css file. Having separate
+partials allows to reuse them to produce different CSS target files.
 
 ```
-/navigation
+/scss/navigation
   - index.scss
   - mobile.scss
   - _menu.scss
@@ -55,20 +90,10 @@ partials allows to reuse them for different CSS targets.
   - _hamburger.scss
 ```
 
-```scss
-// index.scss
-@forward "menu";
-@forward "main-menu";
-```
+Basic menu styles used by different Menu Components:
 
 ```scss
-// mobile.scss
-@forward "menu";
-@forward "hamburger";
-```
-
-```scss
-// _menu - basic styles
+// navigation/_menu.scss - basic styles
 @use "../mixins/space";
 
 nav {
@@ -85,8 +110,16 @@ nav {
 }
 ```
 
+Main Menu Component styles from `navigation/index.scss`:
+
 ```scss
-// - _main-menu
+// navigation/index.scss
+@forward "menu";
+@forward "main-menu";
+```
+
+```scss
+// navigation/_main-menu.scss - main menu
 @use "../mixins/space";
 @use "../mixins/theme";
 
@@ -105,8 +138,16 @@ nav {
 }
 ```
 
+Mobile Menu Component styles from `navigation/mobile.scss`:
+
 ```scss
-// _hamburger
+// navigation/mobile.scss
+@forward "menu";
+@forward "hamburger";
+```
+
+```scss
+// navigation/_hamburger.scss - mobile menu
 @use "../mixins/space";
 @use "../mixins/theme";
 
@@ -119,4 +160,19 @@ nav {
   button {}
   svg {}
 }
+```
+
+Sass will create two separate .css files the can be loaded into the .html
+
+- /css/navigation/index.css
+- /css/navigation/mobile.css
+
+```html
+<link href="css/style.css" rel="stylesheet">
+<link href="css/theme.css" rel="stylesheet">
+
+<!-- Main Menu Styles -->
+<link href="css/navigation/index.css" rel="stylesheet">
+<!-- Mobile Menu Styles (conditional loading) -->
+<link href="css/navigation/mobile.css" rel="stylesheet" media="screen and (max-width:50rem)">
 ```
