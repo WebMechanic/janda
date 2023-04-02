@@ -19,18 +19,18 @@ $sizes-all: (xxs, xs, sm, smd, md, lg, xl, xxl);
 /// @type {Map}
 $viewports: (
 	  // replaces 22.5rem|360px and the more common screen size since 2019
-		xxs: 23.25em, // 22.5em | 360px
-		xs : 30em, // 480px
-		sm : 36em, // 576px * 720 (TV, PAL | 5:4)
-		smd: 40em, // 640px
+		xxs: 23.25rem, // 22.5em | 360px
+		xs : 30rem, // 480px
+		sm : 36rem, // 576px * 720 (TV, PAL | 5:4)
+		smd: 40rem, // 640px
     // larger range to include modern mobiles in the legacy "768px" range
-		md : 50em, // 800px
-		lg : 64em, // 1024px 16:9 (65.625 | 1050px 16:10)
-		xl : 80em, // 1280px * 720
-		xxl: 90em, // 1440px
-		hd : 120em, // 1920px * 1080
-		qhd: 160em, // 2560px * 1440
-		uhd: 240em, // 3840px * 2160
+		md : 50rem, // 800px
+		lg : 64rem, // 1024px 16:9 (65.625 | 1050px 16:10)
+		xl : 80rem, // 1280px * 720
+		xxl: 90rem, // 1440px
+		hd : 120rem, // 1920px * 1080
+		qhd: 160rem, // 2560px * 1440
+		uhd: 240rem, // 3840px * 2160
 ) !default;
 
 /// Given $size, returns a value from $brakpoints Map.
