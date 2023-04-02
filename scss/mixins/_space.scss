@@ -1,0 +1,64 @@
+/* White Space and Spacing */
+// a simple mixin module to mess with spacing, mals, and lists
+// that provide consistant white space using simple T-Short sizes.
+
+// load Sass module
+@use "sass:map";
+
+/// Values based off the Golden Ratio 1.618034 (Fibunacci sequence)
+/// which work really nice with font sizes and paddings.
+$xxs: 0.375rem;
+$xs: 0.5rem;
+$sm: 1rem;
+$md: 1.625rem;
+$lg: 2.225rem;
+$xl: 3.325rem;
+
+// same variable name exists in '_device.scss'. 
+// that's why we need namespacing.
+$sizes: (
+  xxs: $xxs,
+  xs: $xs,
+  sm: $sm,
+  md: $md,
+  lg: $lg,
+  xl: $xl,
+);
+
+/// Add padding based on a well known $size.
+/// @var $size String a key from $sizes.
+@mixin p($size) {
+  --spacer: #{map.get($sizes, $size)};
+  padding: map.get($sizes, $size);
+}
+@mixin pi($size) {
+  padding-inline: map.get($sizes, $size);
+}
+@mixin pb($size) {
+  padding-block: map.get($sizes, $size);
+}
+
+/// Add margin based on a well known $size.
+/// @var $size String a key from $sizes.
+@mixin m($size) {
+  --spacing: #{get($sizes, $size)};
+  --spacing-neg: -#{get($sizes, $size)};
+  margin: var(--spacing)
+}
+@mixin mi($size) {
+  --spacing: #{map.get($sizes, $size)};
+  --spacing-neg: -#{map.get($sizes, $size)};
+  margin-inline: var(--spacing)
+}
+@mixin mb($size) {
+  --spacing: #{map.get($sizes, $size)};
+  --spacing-neg: -#{map.get($sizes, $size)};
+  margin-block: var(--spacing)
+}
+
+// flat layout
+// @var $nuke Boolean adds !important
+@mixin collapse($nuke: false) {
+  margin: 0 if($nuke, !important, null);
+  padding: 0 if($nuke, !important, null);
+}

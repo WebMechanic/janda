@@ -1,8 +1,9 @@
 /* Footer Styles */
 
-// import all variables without a namespace
-@use "variables" as *;
+// import theme colors with default namesapce 'theme'
+@use "mixins/theme";
 
 .testclass {
-    background-color: $footertextcolor;
+    color: theme.$text-footer;
+    background-color: theme.$surface-footer;
 }

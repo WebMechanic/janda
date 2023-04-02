@@ -1,0 +1,89 @@
+/* Device Viewports */
+
+/// @copyright 2021 https://github.com/WebMechanic
+/// @license   CC-BY-NC-ND 4.0
+
+// load Sass modules
+@use "sass:map";
+@use "sass:math";
+@use "sass:string";
+
+/// Simple Value List to use with @for, @each etc.
+$sizes: (xs, sm, md, lg, xl);
+$sizes-all: (xxs, xs, sm, smd, md, lg, xl, xxl);
+
+/// Map with typical Device Sizes in CSS UNITS !!
+/// ADJUST to your analytics. Many modern devices no longer fit into the
+/// outdated +10yrs old Apple i-Device schema (576, 768) based off TV screens.
+/// Android devices don't and so do modern iPhones/iPads since 2018.
+/// @type {Map}
+$viewports: (
+	  // replaces 22.5rem|360px and the more common screen size since 2019
+		xxs: 23.25em, // 22.5em | 360px
+		xs : 30em, // 480px
+		sm : 36em, // 576px * 720 (TV, PAL | 5:4)
+		smd: 40em, // 640px
+    // larger range to include modern mobiles in the legacy "768px" range
+		md : 50em, // 800px
+		lg : 64em, // 1024px 16:9 (65.625 | 1050px 16:10)
+		xl : 80em, // 1280px * 720
+		xxl: 90em, // 1440px
+		hd : 120em, // 1920px * 1080
+		qhd: 160em, // 2560px * 1440
+		uhd: 240em, // 3840px * 2160
+) !default;
+
+/// Given $size, returns a value from $brakpoints Map.
+/// For use with CSS custom properties or PostCSS @custom-media extrapolate:
+/// @example
+///    --fubar = #{device.breakpoint(sm)};
+///    @custom-media --lg-height  (height <= #{device.breakpoint(lg)});
+/// @param  {Ident} $size a key from $viewports
+/// @return {Dimension}
+
+@function vp($size) {
+	@return map.get($viewports, $size);
+}
+
+// ---------------------------------------------------------------------------- UTILS
+/// These are better kept in a dedicated "mixin/_utils.scss".
+/// Because in Sass a $value like 15rem is considered a number, we need a roundtrip 
+/// through string manipulation world.
+@function to-number($value) {
+  @if type-of($value) == 'number' {
+    @return $value;
+  } @else if type-of($value) != 'string' {
+    $_: log('Value for `to-number` should be a number or a string.');
+  }
+  
+  $result: 0;
+  $digits: 0;
+  $minus: str-slice($value, 1, 1) == '-';
+  $numbers: ('0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9);
+  
+  @for $i from if($minus, 2, 1) through str-length($value) {
+    $character: str-slice($value, $i, $i);
+    
+    @if not (index(map-keys($numbers), $character) or $character == '.') {
+      @return to-length(if($minus, -$result, $result), str-slice($value, $i))
+    }
+    
+    @if $character == '.' {
+      $digits: 1; 
+    } @else if $digits == 0 {
+      $result: $result * 10 + map.get($numbers, $character);  
+    } @else {
+      $digits: $digits * 10;
+      $result: $result + math.div(map.get($numbers, $character), $digits);
+    }
+  }
+  
+  @return if($minus, -$result, $result);;
+}
+
+/// Removes the CSS unit from the $value and turns it into a SASS Number: 15rem => 15
+@function strip-unit($value) {
+  $unit: string.index("#{$value}", math.unit($value));
+  $val: string.unquote(string.slice("#{$value}", 1, $unit - 1));
+  @return to-number($val);
+}

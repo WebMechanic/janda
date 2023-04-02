@@ -1,0 +1,18 @@
+/* Boxes. Eventually many of them */
+
+// not namespaced
+@use "mixins/space" as *;
+
+// namespaced
+@use "mixins/device";
+
+main {
+  width: min(device.vp(lg), 80vw);
+  margin-inline: auto;
+}
+
+.message {
+  max-width: 80%;
+  margin-block: $md;
+  @include p(sm);
+}
