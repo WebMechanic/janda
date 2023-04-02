@@ -1,18 +1,5 @@
-/* Error: Can't find stylesheet to import.
- *   ,
- * 1 | @forward 'animations';
- *   | ^^^^^^^^^^^^^^^^^^^^^
- *   '
- *   scss\base\_index.scss 1:1  @use
- *   scss\style.scss 2:1        root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Can't find stylesheet to import.\a   \2577 \a 1 \2502  @forward 'animations';\a   \2502  ^^^^^^^^^^^^^^^^^^^^^\a   \2575 \a   scss\\base\\_index.scss 1:1  @use\a   scss\\style.scss 2:1        root stylesheet";
+.testclass {
+  background-color: rgb(94, 189, 68);
 }
+
+/*# sourceMappingURL=style.css.map */
