@@ -1,11 +1,10 @@
-/* Error: Undefined variable.
+/* Error: Can't find stylesheet to import.
  *   ,
- * 4 |     background-color: $footertextcolor;
- *   |                       ^^^^^^^^^^^^^^^^
+ * 1 | @forward 'animations';
+ *   | ^^^^^^^^^^^^^^^^^^^^^
  *   '
- *   scss\layout\_footer.scss 4:23  @forward
- *   scss\layout\_index.scss 1:1    @use
- *   scss\style.scss 4:1            root stylesheet */
+ *   scss\base\_index.scss 1:1  @use
+ *   scss\style.scss 2:1        root stylesheet */
 
 body::before {
   font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
@@ -15,5 +14,5 @@ body::before {
   padding: 1em;
   margin-bottom: 1em;
   border-bottom: 2px solid black;
-  content: "Error: Undefined variable.\a   \2577 \a 4 \2502      background-color: $footertextcolor;\d\a   \2502                        ^^^^^^^^^^^^^^^^\a   \2575 \a   scss\\layout\\_footer.scss 4:23  @forward\a   scss\\layout\\_index.scss 1:1    @use\a   scss\\style.scss 4:1            root stylesheet";
+  content: "Error: Can't find stylesheet to import.\a   \2577 \a 1 \2502  @forward 'animations';\a   \2502  ^^^^^^^^^^^^^^^^^^^^^\a   \2575 \a   scss\\base\\_index.scss 1:1  @use\a   scss\\style.scss 2:1        root stylesheet";
 }
