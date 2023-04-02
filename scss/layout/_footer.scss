@@ -1,3 +1,5 @@
+@use "../abstracts/_variables" as *;
+
 .testclass {
-    background-color: aqua;
+    background-color: $footertextcolor;
 }
