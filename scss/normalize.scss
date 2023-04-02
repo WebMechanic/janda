@@ -1,13 +1,16 @@
 /* normalize.scss v8.0.1 | MIT License | github.com/necolas/normalize.scss */
 
 // import all variables without a namespace
-@use "variables" as *;
+@use "variables"as *;
 
 // Box sizing
 html {
   box-sizing: border-box;
 }
-*, *::before, *::after {
+
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -18,7 +21,8 @@ body {
 }
 
 // Remove list styles (bullets/numbers)
-ul, ol {
+ul,
+ol {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -32,6 +36,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 body {
   font-family: inherit;
   font-size: 1rem;
@@ -61,7 +66,10 @@ img {
 }
 
 // Forms
-input, button, select, textarea {
+input,
+button,
+select,
+textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
