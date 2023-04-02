@@ -1,1 +1,11 @@
+/* Global Variables to be `@use`d  in other *.scss */
+
+// Typography
+$font-family-sans-serif: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, sans-serif;
+$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$line-height: 1.5;
+
+// Colors
+$color-black: #000;
+$color-white: #fff;
 $footertextcolor: rgb(94, 189, 68);

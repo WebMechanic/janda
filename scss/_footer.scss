@@ -1,4 +1,7 @@
+/* Footer Styles */
 
+// import all variables without a namespace
+@use "variables" as *;
 
 .testclass {
     background-color: $footertextcolor;
